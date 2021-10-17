@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import styles from './index.module.css'
 import logo from '../rasa.svg';
@@ -15,9 +15,15 @@ const App = () => {
   ])
 
   const handleChange = (text, entities) => {
-    setText(text); 
-    setEntities(entities);
+    let newEntities = [...entities]
+    setText(text)
+    setEntities(newEntities)
   }
+  
+  useEffect(() => { 
+    setEntities(entities)
+    setText(text)
+  }, [entities, text])
 
   return (
     <div className={styles.app}>
@@ -32,7 +38,7 @@ const App = () => {
         Rasa is writing a new natural language classifier to sort useful concepts in tech from meaningless jargon <span role="img" aria-label="Hell yeah">💯</span>.
         You are writing the interface to help us train the classifier! One of the important parts of the interface is
         what we call the EntityHighlighter, which allows the user to highlight and identify parts of a string.
-        Try clicking existing highlights, or adding some of your own by selecting some text and filling the form.
+        Try clicking existing highlights, or adding some of your own by selecting some text and <del>filling the form</del> selecting from the dropdown the entity label that best describes text.
       </p>
       <p>
         However, the code is in a bit of a mess and a nightmare to maintain - <span role="img" aria-label="Oh no">😱</span> everyone is afraid of touching it!

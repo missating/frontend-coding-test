@@ -22,7 +22,7 @@ const styles = {
   },
 };
 
-const Highlight = ({text, entity, index}) => {
+const TextHighlight = ({text, entity, index}) => {
   const start = text.substr(0, entity.start);
   const value = text.substr(entity.start, entity.end - entity.start);
   const end = text.substr(entity.end);
@@ -39,10 +39,10 @@ const Highlight = ({text, entity, index}) => {
   );
 }
 
-Highlight.propTypes = {
+TextHighlight.propTypes = {
   text: PropTypes.string.isRequired,
   entity: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
 }
 
-export default Highlight;
+export default TextHighlight;

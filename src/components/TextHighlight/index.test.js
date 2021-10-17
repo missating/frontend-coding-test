@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Highlight from './index';
+import TextHighlight from './index';
 
 const mockProps = {
   text: 'Venture Capital',
@@ -9,8 +9,8 @@ const mockProps = {
 }
 
 describe('Highlight Component', () => {
-  test('renders highlight div with the correct styles', () => {
-    const {container} = render(<Highlight {...mockProps}/>);
+  test('renders TextHighlight div with the correct styles', () => {
+    const {container} = render(<TextHighlight {...mockProps}/>);
     expect(container.firstChild).toHaveStyle(`color: transparent; textAlign: left`)
   });
 });
