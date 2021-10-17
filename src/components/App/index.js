@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import styles from './index.module.css'
 import logo from '../rasa.svg';
-import EntityHighlighter from '../EntityHighlighter';
+import EntityHighlighter from '../EntityHighlighter/index';
 
 const App = () => {
   const [text, setText] = useState('Venture first mover advantage learning curve market ecosystem funding stealth disruptive social proof scrum project growth hacking niche market user experience graphical user interface.')
