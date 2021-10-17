@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from 'react';
 
-import styles from './index.module.css'
 import logo from '../rasa.svg';
 import EntityHighlighter from '../EntityHighlighter/index';
+
+const styles = {
+  app: {
+    textAlign: 'center',
+    padding: '2em',
+    width: '60%',
+    margin: '0 auto',
+    color: 'black',
+    maxWidth: 750,
+    minWidth: 250,
+  },
+  logo: {
+    height: '5vmin',
+  },
+};
+
 
 const App = () => {
   const [text, setText] = useState('Venture first mover advantage learning curve market ecosystem funding stealth disruptive social proof scrum project growth hacking niche market user experience graphical user interface.')
@@ -26,9 +41,9 @@ const App = () => {
   }, [entities, text])
 
   return (
-    <div className={styles.app}>
+    <div style={styles.app}>
     <header>
-      <img src={logo} className={styles.logo} alt="Rasa" />
+      <img src={logo} style={styles.logo} alt="Rasa" />
       <h1>
         Entity Highlighting
       </h1>
