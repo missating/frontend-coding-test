@@ -13,5 +13,3 @@ export const colors = [
   { name: 'yellow', bg: '#ffdc00' },
   { name: 'aqua', bg: '#7fdbff' },
 ];
-
-export const EntityLabels = [{label: 'very important'}, {label: 'important'}, {label: 'nonsense'}];

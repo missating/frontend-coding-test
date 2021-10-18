@@ -3,12 +3,12 @@ import { render, screen } from '@testing-library/react';
 import App from './index';
 
 describe('App Component', () => {
-  test('renders instructions for completing task', () => {
+  test('it should render instructions for completing task', () => {
     render(<App />);
     expect(screen.getByText('Entity Highlighting')).toBeInTheDocument();
   });
   
-  test('renders child component', () => {
+  test('it should render child component', () => {
     const { getByText } = render(<App />);
     expect(getByText(/Add entity for selection/i)).toBeInTheDocument();
   });

@@ -9,7 +9,7 @@ const mockProps = {
 }
 
 describe('Highlight Component', () => {
-  test('renders TextHighlight div with the correct styles', () => {
+  test('it should render TextHighlight div with the correct styles', () => {
     const {container} = render(<TextHighlight {...mockProps}/>);
     expect(container.firstChild).toHaveStyle(`color: transparent; textAlign: left`)
   });
