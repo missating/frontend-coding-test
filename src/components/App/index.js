@@ -33,12 +33,12 @@ const App = () => {
     setText(text);
     setEntities(newEntities);
   };
-  
-  useEffect(() => { 
-    setEntities(entities)
-    setText(text)
-  }, [entities, text]);
 
+  // useEffect(() => { 
+  //   setEntities(entities)
+  //   setText(text)
+  // }, [entities, text]);
+  
   return (
     <div style={styles.app}>
     <header>

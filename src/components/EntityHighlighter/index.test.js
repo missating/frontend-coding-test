@@ -15,14 +15,12 @@ describe('EntityHighlighter Component', () => {
 
   test('it should simulate text change for entity label', () => {
     const onChange = jest.fn();
-    act(() => {
       render(
         <EntityHighlighter  
           text={'mock text'} 
           entities={[ { start: 160, end: 184, label: 'very important'}]} 
           onChange={onChange}
         />);
-    });
 
     let inputNode = screen.getByRole("textbox", { name: /entityLabel/i });
     fireEvent.change(inputNode, { target: { value: 'important' } })

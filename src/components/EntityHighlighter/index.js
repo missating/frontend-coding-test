@@ -58,16 +58,56 @@ const EntityHighlighter = ({ text, entities, onChange }) => {
 
   const handleTextChange = (event) => {
     const newText = event.target.value;
-    console.log(newText);
+    const NewEntities = [];
+
+      entities.forEach(entity => {
+      const oldSelection = text.substr(entity.start, entity.end - entity.start);
+
+      const findClosestStart = (lastMatch) => {
+        if (lastMatch === null) {
+          const index = newText.indexOf(oldSelection);
+          if (index === -1) {
+            return index;
+          }
+          return findClosestStart(index);
+        }
+        const from = lastMatch + oldSelection.length;
+        const index = newText.indexOf(oldSelection, from);
+        if (index === -1) {
+          return lastMatch;
+        }
+        const prevDiff = Math.abs(entity.start - lastMatch);
+        const nextDiff = Math.abs(entity.start - index);
+        if (prevDiff < nextDiff) {
+          return lastMatch;
+        }
+        return findClosestStart(index);
+      }
+
+      const start = findClosestStart();
+
+      if (start === -1) {
+        return;
+      }
+
+      NewEntities.push({
+        ...entity,
+        start,
+        end: start + oldSelection.length,
+      });
+    });
+
+    onChange(newText, NewEntities);
   }
 
-  const findEntities = (index) => {
-    return entities.filter(e => e.start <= index && e.end > index);
+  const findEntities = (selectionStart) => {
+    return entities.filter(e => e.start <= selectionStart && e.end > selectionStart);
   };
 
   const deleteEntity = (entity) => {
-    const newList = entities.filter((item) => item.start !== entity.start && item.end !== entity.end && item.label !== entity.label);
-    onChange(text, newList);
+    const deleted = entities.findIndex(e => e.start === entity.start && e.end === entity.end && e.label === entity.label);
+    const result = [...entities.slice(0, deleted), ...entities.slice(deleted + 1)]
+    onChange(text, result);
   }
 
   return (
