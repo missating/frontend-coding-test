@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import updateEntityBoundary from '../../utils/updateEntityBoundary';
 import TextHighlight from '../TextHighlight';
 
 const styles = {
@@ -25,7 +26,7 @@ const styles = {
   },
   addButton: {
     cursor: 'pointer',
-  }
+  },
 };
 
 const EntityHighlighter = ({ text, entities = [], onChange }) => {
@@ -41,8 +42,8 @@ const EntityHighlighter = ({ text, entities = [], onChange }) => {
 
       if(target === inputNode) {
         setSelectionStart(inputNode.selectionStart);
-        setSelectionEnd(inputNode.selectionEnd)
-      }
+        setSelectionEnd(inputNode.selectionEnd);
+      };
     };
 
     document.addEventListener('select', selectionChangeHandler, false);
@@ -57,52 +58,13 @@ const EntityHighlighter = ({ text, entities = [], onChange }) => {
   });
 
   const handleTextChange = (event) => {
-    const newText = event.target.value;
+    const newText = event.target.value;    
     const NewEntities = [];
 
-      entities.forEach(entity => {
-      const oldSelection = text.substr(entity.start, entity.end - entity.start);
-
-      const findClosestStart = (lastMatch) => {
-        if(lastMatch === 0) {
-          return;
-        }
-
-        if (lastMatch === undefined) {
-          const index = newText.indexOf(oldSelection);
-          if (index === -1) {
-            return index;
-          }
-          return findClosestStart(index);
-        }
-        const from = lastMatch + oldSelection.length;
-        const index = newText.indexOf(oldSelection, from);
-        if (index === -1) {
-          return lastMatch;
-        }
-        const prevDiff = Math.abs(entity.start - lastMatch);
-        const nextDiff = Math.abs(entity.start - index);
-        if (prevDiff < nextDiff) {
-          return lastMatch;
-        }
-        return findClosestStart(index);
-      }
-
-      const start = findClosestStart();
-
-      if (start === -1) {
-        return;
-      }
-
-      NewEntities.push({
-        ...entity,
-        start,
-        end: start + oldSelection.length,
-      });
-    });
+    updateEntityBoundary(newText, NewEntities, entities, text);
 
     onChange(newText, NewEntities);
-  }
+  };
 
   const findEntities = (selectionStart) => {
     return entities.filter(e => e.start <= selectionStart && e.end > selectionStart);
@@ -110,9 +72,15 @@ const EntityHighlighter = ({ text, entities = [], onChange }) => {
 
   const deleteEntity = (entity) => {
     const deleted = entities.findIndex(e => e.start === entity.start && e.end === entity.end && e.label === entity.label);
-    const result = [...entities.slice(0, deleted), ...entities.slice(deleted + 1)]
+    const result = [...entities.slice(0, deleted), ...entities.slice(deleted + 1)];
     onChange(text, result);
-  }
+  };
+
+  const onFormSubmit = (event) => {
+    event.preventDefault();
+    onChange(text, entities.concat({ start: selectionStart, end: selectionEnd, label: entityText }));
+    setEntityText('');
+  };
 
   return (
     <>
@@ -140,27 +108,26 @@ const EntityHighlighter = ({ text, entities = [], onChange }) => {
         ))}
       </div>
       <br />
-      <div>
-        <input
-          type="text"
-          aria-label="entityLabel"
-          name="entityLabel"
-          placeholder="Entity label"
-          value={entityText}
-          onChange={(event) => setEntityText(event.target.value)}
-          disabled={selectionStart === selectionEnd}
-        />
-        <button
-          onClick={() => {
-            onChange(text, entities.concat({ start: selectionStart, end: selectionEnd, label: entityText }));
-            setEntityText('')
-        }}
-          disabled={entityText.length === 0}
-          style={styles.addButton}
-        >
-          Add entity for selection
-        </button>
-      </div>
+      <form onSubmit={onFormSubmit}>
+        <div>
+          <input
+            type="text"
+            aria-label="entityLabel"
+            name="entityLabel"
+            placeholder="Entity label"
+            value={entityText}
+            onChange={(event) => setEntityText(event.target.value)}
+            disabled={selectionStart === selectionEnd}
+          />
+          <button
+            type="submit"
+            disabled={entityText.length === 0}
+            style={styles.addButton}
+          >
+            Add entity for selection
+          </button>
+        </div>
+      </form>
       <div style={styles.buttonContainer}>
         {findEntities(selectionStart).map((entity,index) => (
           <span key={index}>
@@ -175,13 +142,13 @@ const EntityHighlighter = ({ text, entities = [], onChange }) => {
         ))}
       </div>
     </>
-  )
-}
+  );
+};
 
 EntityHighlighter.propTypes = {
   text: PropTypes.string.isRequired,
   entities: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChange: PropTypes.func.isRequired,
-}
+};
 
 export default EntityHighlighter;

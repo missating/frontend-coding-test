@@ -5,7 +5,6 @@ import hashString from '../../utils/hashString';
 import {colors} from '../../constant';
 
 const styles = {
-  text: {},
   highlightText: {
     color: 'transparent',
     pointerEvents: 'none',
@@ -37,12 +36,12 @@ const TextHighlight = ({text, entity, index}) => {
     <span>{end}</span>
   </div>
   );
-}
+};
 
 TextHighlight.propTypes = {
   text: PropTypes.string.isRequired,
   entity: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
-}
+};
 
 export default TextHighlight;
