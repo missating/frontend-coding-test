@@ -7,6 +7,6 @@ const hashString = (str) => {
       hash &= hash; // Convert to 32bit integer
     }
     return hash > 0 ? hash : -hash;
-}
+};
 
 export default hashString;
