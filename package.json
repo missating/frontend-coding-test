@@ -25,6 +25,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@testing-library/dom": "^8.10.1",
+    "@testing-library/user-event": "^13.5.0",
     "react-scripts": "^4.0.3"
   }
 }

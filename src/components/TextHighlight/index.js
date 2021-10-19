@@ -27,7 +27,7 @@ const TextHighlight = ({text, entity, index}) => {
   const value = text.substr(entity.start, entity.end - entity.start);
   const end = text.substr(entity.end);
   const color = colors[hashString(entity.label) % colors.length].bg;
-  
+
   return (
     <div key={index} style={{...styles.zeroPos, ...styles.highlightText}}>
     <span>{start}</span>

@@ -28,7 +28,7 @@ const styles = {
   }
 };
 
-const EntityHighlighter = ({ text, entities, onChange }) => {
+const EntityHighlighter = ({ text, entities = [], onChange }) => {
   let inputNode = useRef(null);
 
   const [selectionStart, setSelectionStart] = useState(0);
@@ -64,7 +64,11 @@ const EntityHighlighter = ({ text, entities, onChange }) => {
       const oldSelection = text.substr(entity.start, entity.end - entity.start);
 
       const findClosestStart = (lastMatch) => {
-        if (lastMatch === null) {
+        if(lastMatch === 0) {
+          return;
+        }
+
+        if (lastMatch === undefined) {
           const index = newText.indexOf(oldSelection);
           if (index === -1) {
             return index;
@@ -122,7 +126,7 @@ const EntityHighlighter = ({ text, entities, onChange }) => {
          }}
           aria-label="entityText"
           name="entityText"
-          onChange={event => handleTextChange(event)}
+          onChange={(event) => handleTextChange(event)}
           value={text}
           rows={10}
         />
@@ -157,21 +161,19 @@ const EntityHighlighter = ({ text, entities, onChange }) => {
           Add entity for selection
         </button>
       </div>
-      {selectionStart === selectionEnd && findEntities(selectionStart).length > 0 && (
-        <div style={styles.buttonContainer}>
-          {findEntities(selectionStart).map((entity,index) => (
-            <span key={index}>
-              {text.substring(entity.start, entity.end)} ({entity.label})
-                <button
-                  style={styles.deleteButton}
-                  onClick={() => deleteEntity(entity)}
-                >
-                <span role="img" aria-label="Delete">🗑️</span>
-                </button>
-            </span>
-          ))}
-        </div>
-      )}
+      <div style={styles.buttonContainer}>
+        {findEntities(selectionStart).map((entity,index) => (
+          <span key={index}>
+            {text.substring(entity.start, entity.end)} ({entity.label})
+              <button
+                style={styles.deleteButton}
+                onClick={() => deleteEntity(entity)}
+              >
+              <span role="img" aria-label="Delete">🗑️</span>
+              </button>
+          </span>
+        ))}
+      </div>
     </>
   )
 }

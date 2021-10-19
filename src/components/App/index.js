@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import logo from '../rasa.svg';
 import EntityHighlighter from '../EntityHighlighter/index';
@@ -33,11 +33,6 @@ const App = () => {
     setText(text);
     setEntities(newEntities);
   };
-
-  // useEffect(() => { 
-  //   setEntities(entities)
-  //   setText(text)
-  // }, [entities, text]);
   
   return (
     <div style={styles.app}>
