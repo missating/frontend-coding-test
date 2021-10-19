@@ -9,9 +9,6 @@
 1.  [React](https://reactjs.org/)
 1.  [React Testing Library](https://testing-library.com/)
 
-Clone this repo, run `npm install` and start the project using `npm start`. 
-The instructions for completing the task can be found in the site that will launch.
-
 ## Getting Started:
 
 ---
